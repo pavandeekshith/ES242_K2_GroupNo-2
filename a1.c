@@ -112,8 +112,46 @@ void previous_permutation(int a[], int n)
     a[3] = 6;
     a[4] = 3;
     a[5] = 2;
-}
+    int previous_Permutation(int a[], int n);
 
+}
+int previous_Permutation(int a[], int n) {
+    int i = n - 2;
+
+    // Find the first element that is smaller than its next element
+    while (i >= 0 && a[i] <= a[i + 1]) {
+        i--;
+    }
+
+    // If no such element is found, it's the first permutation
+    if (i < 0) {
+        printf("Previous Permutation does not exist\n");
+        return 0;
+    }
+
+    // Find the rightmost element greater than a[i]
+    int j = n - 1;
+    while (a[j] >= a[i]) {
+        j--;
+    }
+
+    int temp = a[i];
+    a[i] = a[j];
+    a[j] = temp;
+
+    // Reverse the elements from i+1 to the end
+    int start = i + 1;
+    int end = n - 1;
+    while (start < end) {
+        temp = a[start];
+        a[start] = a[end];
+        a[end] = temp;
+        start++;
+        end--;
+    }
+
+    return 1;
+}
 /* Write your tests here. Use the previous assignment for reference. */
 
 typedef struct {

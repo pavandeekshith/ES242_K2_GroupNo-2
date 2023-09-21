@@ -114,30 +114,16 @@ void generate_splits(const char *source, const char *dictionary[], int nwords, c
  */
 void previous_permutation(int a[], int n)
 {
-    a[0] = 1;
-    a[1] = 5;
-    a[2] = 4;
-    a[3] = 6;
-    a[4] = 3;
-    a[5] = 2;
-    int previous_Permutation(int a[], int n);
-
-}
-int previous_Permutation(int a[], int n) {
     int i = n - 2;
 
-    // Find the first element that is smaller than its next element
     while (i >= 0 && a[i] <= a[i + 1]) {
         i--;
     }
 
-    // If no such element is found, it's the first permutation
     if (i < 0) {
-        printf("Previous Permutation does not exist\n");
-        return 0;
+        return ;
     }
-
-    // Find the rightmost element greater than a[i]
+    
     int j = n - 1;
     while (a[j] >= a[i]) {
         j--;
@@ -157,8 +143,6 @@ int previous_Permutation(int a[], int n) {
         start++;
         end--;
     }
-
-    return 1;
 }
 /* Write your tests here. Use the previous assignment for reference. */
 

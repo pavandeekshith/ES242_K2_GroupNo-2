@@ -58,10 +58,6 @@ void remove_trailing_space(char buf[]) {
         len--;
     }
 }
-void print_split(char buf[], void *data) {
-    // Simply print the split to stdout
-    printf("%s\n", buf);
-}
 void generate_splits_helper(const char *source, const char *dictionary[], int nwords, char buf[], int buf_index, int source_index, void *data, void (*process_split)(char buf[], void *data)) {
     int n = strlen(source);
     // base case

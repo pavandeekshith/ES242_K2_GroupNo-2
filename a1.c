@@ -51,19 +51,14 @@ void generate_selections(int a[], int n, int k, int b[], void *data, void (*proc
  * The dictionary parameter is an array of words, sorted in dictionary order.
  * nwords is the number of words in this dictionary.
  */
-void remove_trailing_space(char buf[]) {
-    int len = strlen(buf);
-    while (len > 0 && buf[len - 1] == ' ') {
-        buf[len - 1] = '\0';
-        len--;
-    }
-}
 void generate_splits_helper(const char *source, const char *dictionary[], int nwords, char buf[], int buf_index, int source_index, void *data, void (*process_split)(char buf[], void *data)) {
     int n = strlen(source);
     // base case
     if (source_index == n) {
-        buf[buf_index] = '\0';
-        remove_trailing_space(buf);
+        if (buf[buf_index-1]!=' '){
+            buf[buf_index] = '\0';
+        }
+        else buf[buf_index-1] = '\0';
         process_split(buf, data);
         return;
     }

@@ -72,7 +72,7 @@ void generate_splits_helper(const char *source, const char *dictionary[], int nw
         // check if the word is in dictionary
         int is_word = 0;
         for (int j = 0; j < nwords; j++) {
-            if (strcmp(word, dictionary[j]) == 0 && strcmp(word, source) != 0) {
+            if (strcmp(word, dictionary[j]) == 0) {
                 is_word = 1;
                 break;
             }

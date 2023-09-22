@@ -20,7 +20,7 @@ void client(int a[],int k,int ind[],int b[]){
 void perm(int a[],int k,int ind[],int start,int ci,int n,int b[],void *data,void (*process_selection)(int *b, int k, void *data)){
     if(ci==k){
         client(a,k,ind,b);
-        process_selection(b, 2, data);
+        process_selection(b, k, data);
         return;
     }
         

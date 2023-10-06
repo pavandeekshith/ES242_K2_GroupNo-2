@@ -176,18 +176,18 @@ int main()
             int move;
             scanf("%d", &move);
             if (move < 0 || move > 14) {
-                printf("Invalid move try again");
-                continue;
+                printf("Invalid move");
+                return 0;
             }
             if (board[move] != NO) {
-                printf("Invalid move try again");
-                continue;
+                printf("Invalid move");
+                return 0;
             }
-            
             board[move] = other_player(computer_player);
         } else {
             response = best_move(board, computer_player);
             board[response.line] = computer_player;
+            printf("The computer has played the index %d \n", response.line);
         }
 
         if (has_won(board, current_player)) {

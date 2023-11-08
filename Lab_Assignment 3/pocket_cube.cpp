@@ -179,7 +179,28 @@ ll  ord (const cube& vertex)
             base *= 3;
         }
     }
-    return a;
+    return a%1000007;
+}
+
+struct cube_det
+{
+    cube parent ;
+    string move ;
+    int visited = 0 ;
+    int ord_ = -1;
+    cube state ;
+};
+
+vector<vector<cube_det>> hash_map(1000010);
+
+cube_det Hash(int ord_a,const cube& c) {
+    auto a = hash_map[ord_a];
+
+    for (int i = 0 ; i < a.size() ; i ++){
+        if (is_cube_same(c,a[i].state)){return a[i] ;}
+    }
+
+    return {c,"", 0, -1};
 }
 
 constexpr int fact(int i)
@@ -260,24 +281,25 @@ bool is_solved(cube& c)
 
 
 
-vector<int> solve(const cube& src)
+vector<string> solve(const cube& src)
 {
     queue<cube> q;
     q.push(src);
-    map<ll, int> visited;
-    map<ll, cube> parent;
-    visited[ord(src)] = R;
+    int src_ord = ord(src);
+    hash_map[src_ord].push_back(cube_det{src, "", 1,src_ord,src}) ;
     while(!q.empty()){
         cube u =q.front();
         q.pop();
         if (is_solved(u)) {
-            vector<int> moves;
+            vector<string> moves;
             cube c = u;
             int o = ord(c);
+            auto store = Hash(o,c);
             while (!is_cube_same(c, src)) {
-                moves.push_back(visited[o]);
-                c = parent[o];
+                moves.push_back(store.move);
+                c = store.parent;
                 o = ord(c);
+                store=Hash(o,c);
             }
             reverse(moves.begin(), moves.end());
             return moves;
@@ -300,70 +322,50 @@ vector<int> solve(const cube& src)
         int gord = ord(g); 
         int hord = ord(h); 
         int iord = ord(i); 
-        if (!visited[aord]) {
-            visited[aord] = R;
-            parent[aord] = u;
+        if (!Hash(aord,a).visited){
+            hash_map[aord].push_back(cube_det{u, "R", 1,aord,a}) ;
             q.push(a);
         }
-        if (!visited[bord]) {
-            visited[bord] = R_;
-            parent[bord] = u;
+        if (!Hash(bord,b).visited){
+            hash_map[bord].push_back(cube_det{u, "R'", 1,bord,b}) ;
             q.push(b);
         }
-        if (!visited[cord]) {
-            visited[cord] = R2;
-            parent[cord] = u;
+        if (!Hash(cord,c).visited){
+            hash_map[cord].push_back(cube_det{u, "R2", 1,cord,c}) ;
             q.push(c);
         }
-        if (!visited[dord]) {
-            visited[dord] = U;
-            parent[dord] = u;
+        if (!Hash(dord,d).visited){
+            hash_map[dord].push_back(cube_det{u, "U", 1,dord,d}) ;
             q.push(d);
         }
-        if (!visited[eord]) {
-            visited[eord] = U_;
-            parent[eord] = u;
+        if (!Hash(eord,e).visited){
+            hash_map[eord].push_back(cube_det{u, "U'", 1,eord,e}) ;
             q.push(e);
         }
-        if (!visited[ford]) {
-            visited[ford] = U2;
-            parent[ford] = u;
+        if (!Hash(ford,f).visited){
+            hash_map[ford].push_back(cube_det{u, "U2", 1,ford,f}) ;
             q.push(f);
         }
-        if (!visited[gord]) {
-            visited[gord] = F;
-            parent[gord] = u;
+        if (!Hash(gord,g).visited){
+            hash_map[gord].push_back(cube_det{u, "F", 1,gord,g}) ;
             q.push(g);
         }
-        if (!visited[hord]) {
-            visited[hord] = F_;
-            parent[hord] = u;
+        if (!Hash(hord,h).visited){
+            hash_map[hord].push_back(cube_det{u, "F'", 1,hord,h}) ;
             q.push(h);
         }
-        if (!visited[iord]) {
-            visited[iord] = F2;
-            parent[iord] = u;
+        if (!Hash(iord,i).visited){
+            hash_map[iord].push_back(cube_det{u, "F2", 1,iord,i}) ;
             q.push(i);
         }
         
     }
 }
 
-
-void print_moves(const vector<int>& moves)
+void print_moves(const vector<string>& moves)
 {
     for (auto m: moves) {
-        switch (m) {
-        case R: printf("R "); break;
-        case R_: printf("R' "); break;
-        case R2: printf("R2 "); break;
-        case U: printf("U "); break;
-        case U_: printf("U' "); break;
-        case U2: printf("U2 "); break;
-        case F: printf("F "); break;
-        case F_: printf("F' "); break;
-        case F2: printf("F2 "); break;
-        }
+        cout<<m<<" ";
     }
     printf("\n");
 }
